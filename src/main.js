@@ -1,8 +1,18 @@
 import Vue from 'vue'
-import App from './App.vue'
+import InertiaTable from './InertiaTable.vue'
 
-Vue.config.productionTip = false
+// Vue.config.productionTip = false
 
-new Vue({
-  render: h => h(App)
-}).$mount('#app')
+const Components = {
+  InertiaTable
+}
+
+Object.keys(Components).foreach(ame => {
+  Vue.component(name, Components[name])
+})
+
+export default Components
+
+// new Vue({
+//   render: h => h(InertiaTable)
+// }).$mount('#app')
