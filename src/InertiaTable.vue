@@ -10,7 +10,7 @@
         </select>
       </search-filter>
       <inertia-link v-if="createLink" class="btn-primary" :href="route(createLink)">
-        <span>Create</span>
+        <span>Create </span>
         <span class="hidden md:inline">{{ entityName }}</span>
       </inertia-link>
     </div>
