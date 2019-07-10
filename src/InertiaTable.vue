@@ -119,7 +119,7 @@ export default {
         return item[column]
       }
 
-      return false;
+      return false
     },
     sentanceCase: function (text) {
       const result = text.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1')
