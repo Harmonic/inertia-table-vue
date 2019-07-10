@@ -21,7 +21,10 @@
       </tr>
       <tr v-for="(item) in data" :key="item[id]" @click="$emit('item-selected', item)" class="hover:bg-gray-100 focus-within:bg-gray-100 cursor-pointer">
       <td v-for="(column, index) in columns" :key="index" class="border-t" v-bind:class="{ 'px-6 py-4 flex items-center': index === 0 }">
-        {{ columnData(item, column) }}
+        <span v-if="columnData(item, column)">
+          {{ columnData(item, column) }}
+        </span>
+        <slot v-else :name="column" :item="item">Data not found</slot>
       </td>
       <td class="border-t w-px">
         <p class="px-4 flex items-center">
@@ -62,10 +65,6 @@ export default {
       default: null
     },
     data: Array,
-    columnDefs: {
-      type: Array,
-      default: () => []
-    },
     id: {
       type: String,
       default: 'id'
@@ -120,15 +119,7 @@ export default {
         return item[column]
       }
 
-      var columnData = this.columnDefs.find(columnDef => {
-        return columnDef.hasOwnProperty(column)
-      })
-
-      if (columnData !== undefined) {
-        return columnData[column](item)
-      }
-
-      return 'Column data not found'
+      return false;
     },
     sentanceCase: function (text) {
       const result = text.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1')

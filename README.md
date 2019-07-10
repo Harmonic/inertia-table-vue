@@ -1,4 +1,4 @@
-# inertia-table for Vue
+# Inertia JS Table for Vue
 
 A Vue component for quickly and easily creating Inertia JS powered tables. Suggested usage with [Inertia table for Laravel](https://github.com/harmonic/inertia-table).
 
@@ -56,12 +56,62 @@ The table can be configured with a number of paramaters:
 |------------|----------|--------|---------------------------------------------------------------------------------------------------|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | columns    | No       | Array  | ['column1', 'column2']                                                                            | All columns in data array. | The name of the columns (found in the data array) to display in the table.                                                                                                                                                                                                                                               |
 | data       | Yes      | Array  | [ 'column1' => 'value1', 'column2' => 'value2' ] [ 'column1' => 'value3', 'column2' => 'value4' ] | None                       | The data that can be displayed in the table.                                                                                                                                                                                                                                                                             |
-| columnDefs | No       | Array  | [ 'columnName' => function(items) {     return 'value'; }                                         | []                         | Add additional columns that do not exist in the actual data.  Useful for calculating additional fields or manipulating data.  Eg. If you had a first name and last name column and wanted to simply return the full name:  ``` js [ 'name' -> function(items) {    return items.firstName + ' ' + items.lastName } ] ``` |
 | id         | No       | String | "ID"                                                                                              | id                         | The name of the column that contains a unique ID. Used to identify a unique row for CRUD operations.                                                                                                                                                                                                                     |
 | routeName  | Yes      | String | "users"                                                                                           | None                       | The name of the Inertia JS route related to the data being displayed.                                                                                                                                                                                                                                                    |
 | createLink | No       | String | "users.create"                                                                                    | null                       | The route name to follow (via an inertia-link) when create button is clicked.  Will not display create button if set to null (default).                                                                                                                                                                                  |
 | filters    | No       | Object | { search: '', trashed: '' }                                                                       | null                       | Data filter information returned from server (see [Inertia Table for Laravel](https://github.com/harmonic/inertia-table) server example.)                                                                                                                                                                                |
-| order      | No       | Object | { orderColumn: 'column1', orderDirection: 'asc' }                                                 | null                       | Select a column to order (by column name) and the direction to order (asc or desc).                                                                                                                                                                                                                                      |
+| order      | No       | Object | { orderColumn: 'column1', orderDirection: 'asc' }                                                 | null                       | Select a column to order (by column name) and the direction to order (asc or desc).                                                                                    |                                                                           
+## Custom columns
+
+By default the table will look for the data value in your data array parameter. If you wish to format your column differently, or add additional columns to your table you can do this using Vue's scoped slots. Your slot name will be the column name and the row data is availabe in the column object. A basic example:
+
+``` js     
+<inertia-table 
+  :data="users" 
+  id="id" 
+  :order="order" 
+  :filters="filters" 
+  :columns="columns" 
+  routeName="users" 
+  createLink="users.create" 
+  @item-selected="show">
+    <template slot-scope="column" slot="company">
+      {{ column.item.companyName }}
+    </template>
+</inertia-table>                                                     
+```
+In the above example we are creating a new column "company" (as per the slot attribute). The slot-scope attribute contains the column details so we can then display them however we want. You can simplify your code to access just the column item if you prefer:
+
+``` js     
+<inertia-table 
+  :data="users" id="id" 
+  :order="order" 
+  :filters="filters" 
+  :columns="columns" 
+  routeName="users" 
+  createLink="users.create" 
+  @item-selected="show">
+    <template slot-scope="{ item }" slot="company">
+      {{ item.companyName }}
+    </template>
+</inertia-table>                                                     
+```
+
+This technique allows you to completely customise what is displayed in any column of the table, this may include HTML or other Vue components, eg.
+
+``` js
+<inertia-table 
+  :data="users" id="id" 
+  :order="order" 
+  :filters="filters" 
+  :columns="columns" 
+  routeName="users" 
+  createLink="users.create" 
+  @item-selected="show">
+    <a slot-scope="{ item }" slot="subscription" :href="`/subscriptions?search=${item.id}`" class="underline" v-on:click.stop="">View</a>
+</inertia-table>   
+```
+The above example generates an HTML link to display in a subscription column.
 
 ## Events
 
@@ -69,12 +119,21 @@ The table can be configured with a number of paramaters:
 |---------------|--------------------------------------------------------------|
 | item-selected | Returns the details of the data row clicked on in the table. |
 
-### Example
+## Example
 
 The below example assumes you are using [harmonic/inertia-table for Laravel](https://github.com/harmonic/inertia-table) to create a backend controller that handles delivery of a User array and filters/orders the data.
 
 ``` html
-<inertia-table :data="users" id="id" :order="order" :filters="filters" :columns="columns" routeName="users" createLink="users.create" @item-selected="show"></inertia-table>
+<inertia-table 
+  :data="users" 
+  id="id" 
+  :order="order" 
+  :filters="filters" 
+  :columns="columns" 
+  routeName="users" 
+  createLink="users.create" 
+  @item-selected="show">
+</inertia-table>
 ```
 
 ``` js
