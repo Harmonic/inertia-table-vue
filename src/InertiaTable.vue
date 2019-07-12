@@ -32,7 +32,7 @@
         </p>
       </td>
       </tr>
-      <tr v-if="data.length === 0">
+      <tr v-if="data.hasOwnProperty('length') && data.length === 0">
       <td class="border-t px-6 py-4" colspan="4">No data found.</td>
       </tr>
     </table>
