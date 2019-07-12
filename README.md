@@ -2,6 +2,8 @@
 
 A Vue component for quickly and easily creating Inertia JS powered tables. Suggested usage with [Inertia table for Laravel](https://github.com/harmonic/inertia-table).
 
+[![Laravel Preset - Click for video]([docs/laravel-preset-screenshot.png](https://github.com/Harmonic/laravel-preset/raw/master/docs/laravel-preset-screenshot.png))](https://www.youtube.com/watch?v=K_d_RboHBbI&feature=youtu.be)
+
 ## Project setup
 
 Requires [Inertia JS](https://github.com/inertiajs) to be installed in your project.
