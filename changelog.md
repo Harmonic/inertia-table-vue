@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.0.8
+
+### Modified
+- Upgraded to Inertia v0.1.0 and included as dependency
+
 ## v1.0.6
 
 ### Modified

@@ -19,6 +19,8 @@
     "*.js"
   ],
   "dependencies": {
+    "@inertiajs/inertia": "^0.1.3",
+    "@inertiajs/inertia-vue": "^0.1.1",
     "core-js": "^2.6.5",
     "lodash": "^4.17.13",
     "pluralize": "^8.0.0",
